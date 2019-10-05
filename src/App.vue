@@ -1,28 +1,68 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="selection-container">
+      <MatSelect :options="fruits"
+                 :placeholder="placeholder"
+                 :label="label"
+                 @change="logUserPick($event)"
+                 v-model="fruitId"></MatSelect>
+      <div>User choose: {{userDidSelect.name}}</div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import MatSelect from './components/MatSelect.vue';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
+    MatSelect,
+  },
+  computed: {
+    userDidSelect() {
+      return this.fruits.find(x => x.id === this.fruitId);
+    },
+  },
+  methods: {
+    logUserPick(e) {
+      console.log(e);
+    },
+  },
+  data() {
+    return {
+      fruitId: 1,
+      placeholder: 'Choose something',
+      label: 'Fruit',
+      fruits: [{
+        id: 1,
+        name: 'Pineapple',
+      }, {
+        id: 2,
+        name: 'Chery',
+      }, {
+        id: 3,
+        name: 'Orange',
+      }],
+    };
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .selection-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .selection-container *:first-child {
+    margin-right: 20px;
+  }
 </style>
